@@ -12,11 +12,6 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 
-
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
     private SensorManager sensorManager;
@@ -24,20 +19,21 @@ public class MainActivity extends AppCompatActivity {
     private TextView xText, yText, zText;
     private Sensor accelSensor;
     private SensorManager sManager;
+    private SensorEventListener gyroscopeEventListener;
 
->>>>>>> Stashed changes;
+//>>>>>>> Stashed changes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-<<<<<<< Updated upstream;
+//<<<<<<< Updated upstream;
 
         //makes the Sensormanager
         sManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         //Sets the accelerometer
         accelSensor = sManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-        sManager.registerListener(this,accelSensor,SensorManager.SENSOR_DELAY_FASTEST);
+        //sManager.registerListener(this,accelSensor,sensorManager.SENSOR_DELAY_FASTEST).show();
 
 
         xText = (TextView)findViewById(R.id.xText);
@@ -45,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         zText = (TextView)findViewById(R.id.zText);
     }
 
-    @Override
+    //@Override
     public void onSensorChanged(SensorEvent sensorEvent)
     {
     xText.setText("X: "+ sensorEvent.values[0]);
@@ -53,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     zText.setText("Z: "+ sensorEvent.values[2]);
     }
 
-    @Override
+    //@Override
     public void onAccuracyChanged(Sensor sensor, int i) {
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -77,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         };
->>>>>>> Stashed changes
+//>>>>>>> Stashed changes
 
     }
 
