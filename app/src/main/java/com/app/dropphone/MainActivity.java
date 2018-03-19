@@ -31,9 +31,6 @@ public class MainActivity extends AppCompatActivity{
         //https://www.youtube.com/watch?v=YrI2pCZC8cc
         accelSensor = sManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-        //sManager.registerListener(this,accelSensor,SensorManager.SENSOR_DELAY_FASTEST);
-
-
         xText = findViewById(R.id.xText);
         yText = findViewById(R.id.yText);
         zText = findViewById(R.id.zText);
