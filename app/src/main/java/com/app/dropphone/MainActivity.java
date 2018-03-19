@@ -12,17 +12,25 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 
-public class MainActivity extends AppCompatActivity implements  SensorEventListener{
 
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.widget.Toast;
+public class MainActivity extends AppCompatActivity {
+    private SensorManager sensorManager;
+    private Sensor gyroscopeSensor;
     private TextView xText, yText, zText;
     private Sensor accelSensor;
     private SensorManager sManager;
 
-
+>>>>>>> Stashed changes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+<<<<<<< Updated upstream;
 
         //makes the Sensormanager
         sManager = (SensorManager)getSystemService(SENSOR_SERVICE);
@@ -48,10 +56,40 @@ public class MainActivity extends AppCompatActivity implements  SensorEventListe
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
 
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        gyroscopeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+
+        //tjekker om gyroskopet har en heldning
+        if (gyroscopeSensor == null)
+        {
+            Toast.makeText(this, "The device has no Gyroscope!", Toast.LENGTH_SHORT).show ();
+            finish();
+        }
+
+        gyroscopeEventListener = new SensorEventListener()
+        {
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent){
+
+            }
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int i){
+
+            }
+        };
+>>>>>>> Stashed changes
+
     }
 
     private void TestThing()
     {
         int i = 1+1;
     }
+
+    private void GyroPhoto()
+    {
+
+    }
+
+
 }
