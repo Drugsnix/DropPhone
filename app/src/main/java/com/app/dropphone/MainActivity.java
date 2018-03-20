@@ -1,5 +1,6 @@
 package com.app.dropphone;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.hardware.SensorEvent;
@@ -57,8 +58,13 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
-
+                if (sensorEvent.values[2] > 7) {
+                    getWindow().getDecorView().setBackgroundColor(Color.BLUE);
+                } else if (sensorEvent.values[2] < -7) {
+                    getWindow().getDecorView().setBackgroundColor(Color.RED);
+                }
             }
+
 
             @Override
             public void onAccuracyChanged(Sensor sensor, int i) {
@@ -106,6 +112,7 @@ public class MainActivity extends AppCompatActivity
         sensorManager.registerListener(gyroscopeEventListener, gyroscopeSensor, SensorManager.SENSOR_DELAY_FASTEST);
         //Re-registrers the accelerometerListener
         sensorManager.registerListener(accelerometerListener, accelerometerSensor, SensorManager.SENSOR_DELAY_FASTEST);
+
     }
 
     //Runs when app is semi closed (aka paused)
