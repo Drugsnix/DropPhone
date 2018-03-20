@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity
                 float zTmp = sensorEvent.values[2];
                 if (xTop < xTmp) {
                     xTop = xTmp;
-                    xText.setText("X: " + xTop); //max so far= 19.483f
+                    xText.setText("X: " + xTop); //max so far= 19.613f
                 }
                 if (yTop < yTmp) {
                     yTop = yTmp;
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 if (zTop < zTmp) {
                     zTop = zTmp;
-                    zText.setText("Z: " + zTop); //max so far= 19.245f
+                    zText.setText("Z: " + zTop); //max so far= 19.613f
                 }
             }
 
