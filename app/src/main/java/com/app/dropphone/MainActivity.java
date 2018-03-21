@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity
     private SensorEventListener accelerometerListener;
     //TextFields on screen
     private TextView xText, yText, zText;
+    //Timer for the gyroscope
 
 
     //Runs onCreate when app is started up from 100% closed
@@ -58,7 +59,8 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
-                if (sensorEvent.values[2] > 7) {
+                //Udskift nedenstående kode med kamera-funktion
+                if (sensorEvent.values[2] > 7){
                     getWindow().getDecorView().setBackgroundColor(Color.BLUE);
                 } else if (sensorEvent.values[2] < -7) {
                     getWindow().getDecorView().setBackgroundColor(Color.RED);
