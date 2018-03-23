@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity
     private TextView xText, yText, zText;
     //Sound
     private MediaPlayer mediaPlayer;
-    private Button soundButton;
     //Runs onCreate when app is started up from 100% closed
     @Override
     protected void onCreate(Bundle savedInstanceState) {
