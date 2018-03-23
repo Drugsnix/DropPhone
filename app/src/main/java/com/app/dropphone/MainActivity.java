@@ -1,14 +1,18 @@
 package com.app.dropphone;
 
 import android.graphics.Color;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.hardware.SensorEvent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.hardware.SensorEventListener;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.media.MediaPlayer;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -20,10 +24,12 @@ public class MainActivity extends AppCompatActivity
     //Accelerometer      https://www.youtube.com/watch?v=YrI2pCZC8cc
     private Sensor accelerometerSensor;
     private SensorEventListener accelerometerListener;
+    private boolean dropped = false;
     //TextFields on screen
     private TextView xText, yText, zText;
-
-
+    //Sound
+    private MediaPlayer mediaPlayer;
+    private Button soundButton;
     //Runs onCreate when app is started up from 100% closed
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,8 @@ public class MainActivity extends AppCompatActivity
         xText = findViewById(R.id.xText);
         yText = findViewById(R.id.yText);
         zText = findViewById(R.id.zText);
+        //instantiate media player + button
+        mediaPlayer = MediaPlayer.create(this,R.raw.scream);
 
         //Checks if phone got a gyroscope
         if (gyroscopeSensor == null) {
@@ -74,25 +82,29 @@ public class MainActivity extends AppCompatActivity
 
         //instantiates accelerometerListener
         accelerometerListener = new SensorEventListener() {
-            float xTop, yTop, zTop;
+            float xOld, yOld, zOld;
+            float xTmp,yTmp,zTmp;
 
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
-                float xTmp = sensorEvent.values[0];
-                float yTmp = sensorEvent.values[1];
-                float zTmp = sensorEvent.values[2];
-                if (xTop < xTmp) {
-                    xTop = xTmp;
-                    xText.setText("X: " + xTop); //max so far= 19.613f
+               //Measures to the tmp fields from the accelerometer
+               xTmp = sensorEvent.values[0];
+               yTmp = sensorEvent.values[1];
+               zTmp = sensorEvent.values[2];
+                //Prints the value for debugging
+               xText.setText("X: " + xTmp); //max so far= 19.613f
+               yText.setText("Y: " + yTmp); //max so far= 19.618f
+               zText.setText("Z: " + zTmp); //max so far= 19.613f
+                //Checks if x or y is 19 much higher = a drop
+                if(xTmp > xOld + 19||yTmp > yOld + 19)
+                {
+                    //Calls the onDrop Method that plays the sound
+                   onDrop();
                 }
-                if (yTop < yTmp) {
-                    yTop = yTmp;
-                    yText.setText("Y: " + yTop); //max so far= 19.618f
-                }
-                if (zTop < zTmp) {
-                    zTop = zTmp;
-                    zText.setText("Z: " + zTop); //max so far= 19.613f
-                }
+                //Sets the new old fields
+                xOld = xTmp;
+                yOld = yTmp;
+                zOld = zTmp;
             }
 
             @Override
@@ -126,4 +138,9 @@ public class MainActivity extends AppCompatActivity
         sensorManager.unregisterListener(accelerometerListener);
     }
 
+    public void onDrop()
+    {
+        mediaPlayer.start();
+        dropped = true;
+    }
 }//MainActivity Class body end
