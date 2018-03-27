@@ -164,6 +164,8 @@ public class MainActivity extends AppCompatActivity
 
                     if (sensorEvent.values[2] > 7) {
                         getWindow().getDecorView().setBackgroundColor(Color.BLUE);
+                    } else if (sensorEvent.values[2] < -7) {
+                        getWindow().getDecorView().setBackgroundColor(Color.RED);
 
                         if (billedecd == 0) {
                             dispatchTakePictureIntent();
@@ -171,8 +173,6 @@ public class MainActivity extends AppCompatActivity
                         } else {
                             billedecd--;
                         }
-                    } else if (sensorEvent.values[2] < -7) {
-                        getWindow().getDecorView().setBackgroundColor(Color.RED);
                     }
                 }
             }
@@ -217,7 +217,6 @@ public class MainActivity extends AppCompatActivity
 
         sound1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                view.setBackgroundColor(Color.parseColor("#FF0000"));
                 mediaPlayer = mSound1;
                 mediaPlayer.start();
             }
@@ -298,6 +297,6 @@ public class MainActivity extends AppCompatActivity
                         Toast.LENGTH_SHORT).show();
             }
         });
-
+            dropped = false;
     }
 }//MainActivity Class body end
