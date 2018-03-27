@@ -25,10 +25,9 @@ public class MainActivity extends AppCompatActivity
     private Sensor accelerometerSensor;
     private SensorEventListener accelerometerListener;
     private boolean dropped = false;
-    //TextFields on screen
-    private TextView xText, yText, zText;
-    //Sound
-    private MediaPlayer mediaPlayer;
+    //Sound+ buttons
+    private MediaPlayer mediaPlayer, mSound1,mSound2,mSound3,mSound4;
+    private Button sound1,sound2,sound3,sound4;
     //Runs onCreate when app is started up from 100% closed
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +40,18 @@ public class MainActivity extends AppCompatActivity
         gyroscopeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         //instantiate the accelerometer
         accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        //instantiates the text fields thats shown on screen
-        xText = findViewById(R.id.xText);
-        yText = findViewById(R.id.yText);
-        zText = findViewById(R.id.zText);
-        //instantiate media player + button
-        mediaPlayer = MediaPlayer.create(this,R.raw.scream);
+        //instantiate media player's
+        mediaPlayer = MediaPlayer.create(this,R.raw.wilhelmscream); //default
+        mSound1 = MediaPlayer.create(this,R.raw.scream);
+        mSound2 = MediaPlayer.create(this,R.raw.malescream);
+        mSound3 = MediaPlayer.create(this,R.raw.tarzanscream);
+        mSound4 = MediaPlayer.create(this,R.raw.wilhelmscream);
+        //instantiates the buttons path
+        sound1 = findViewById(R.id.Sound1);
+        sound2 = findViewById(R.id.Sound2);
+        sound3 = findViewById(R.id.Sound3);
+        sound4 = findViewById(R.id.Sound4);
+
 
         //Checks if phone got a gyroscope
         if (gyroscopeSensor == null) {
@@ -90,10 +95,6 @@ public class MainActivity extends AppCompatActivity
                xTmp = sensorEvent.values[0];
                yTmp = sensorEvent.values[1];
                zTmp = sensorEvent.values[2];
-                //Prints the value for debugging
-               xText.setText("X: " + xTmp); //max so far= 19.613f
-               yText.setText("Y: " + yTmp); //max so far= 19.618f
-               zText.setText("Z: " + zTmp); //max so far= 19.613f
                 //Checks if x or y is 19 much higher = a drop
                 if(xTmp > xOld + 19||yTmp > yOld + 19)
                 {
@@ -111,6 +112,35 @@ public class MainActivity extends AppCompatActivity
 
             }
         };//accelerometerListener body end
+
+        sound1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                view.setBackgroundColor(Color.parseColor("#FF0000"));
+                mediaPlayer = mSound1;
+                mediaPlayer.start();
+            }
+        }); //Sound1 body ends
+
+        sound2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mediaPlayer = mSound2;
+                mediaPlayer.start();
+            }
+        });//Sound1 body ends
+
+        sound3.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mediaPlayer = mSound3;
+                mediaPlayer.start();
+            }
+        });//Sound1 body ends
+
+        sound4.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mediaPlayer = mSound4;
+                mediaPlayer.start();
+            }
+        });//Sound1 body ends
 
     }//onCreate body end
 
