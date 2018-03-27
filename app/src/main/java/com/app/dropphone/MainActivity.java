@@ -63,6 +63,14 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(this, "The device has no accelerometer!", Toast.LENGTH_SHORT).show();
             finish();
         }
+         //KODE DER FÅR GYROSKOPE TIL AT AKTIVERER EFTER ACCELEROMETER
+        /*
+        if (accelerometerSensor != null)
+        {
+            finish();
+        }
+
+        */
 
         //instantiates gyroscopeListener
         gyroscopeEventListener = new SensorEventListener() {

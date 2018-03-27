@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DropPhone.iml" filepath="$PROJECT_DIR$/DropPhone.iml" />
       <module fileurl="file://C:\Users\ander\AndroidStudioProjects\DropPhone\.idea\DropPhone.iml" filepath="C:\Users\ander\AndroidStudioProjects\DropPhone\.idea\DropPhone.iml" />
-      <module fileurl="file://C:\Users\Sharkgaming\StudioProjects\DropPhone\DropPhone.iml" filepath="C:\Users\Sharkgaming\StudioProjects\DropPhone\DropPhone.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
