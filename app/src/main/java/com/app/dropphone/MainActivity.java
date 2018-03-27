@@ -160,22 +160,24 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
-                if (sensorEvent.values[2] > 7) {
-                    getWindow().getDecorView().setBackgroundColor(Color.BLUE);
+                if (dropped = true) {
 
-                    if(billedecd == 0)
-                    {
-                        dispatchTakePictureIntent();
-                        billedecd = 30;
+                    if (sensorEvent.values[2] > 7) {
+                        getWindow().getDecorView().setBackgroundColor(Color.BLUE);
+
+                        if (billedecd == 0) {
+                            dispatchTakePictureIntent();
+                            billedecd = 30;
+                        } else {
+                            billedecd--;
+                        }
+                    } else if (sensorEvent.values[2] < -7) {
+                        getWindow().getDecorView().setBackgroundColor(Color.RED);
                     }
-                    else
-                    {
-                        billedecd--;
-                    }
-                } else if (sensorEvent.values[2] < -7) {
-                    getWindow().getDecorView().setBackgroundColor(Color.RED);
                 }
             }
+
+
 
 
             @Override
