@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity
     private Button sound1,sound2,sound3,sound4;
     //Runs onCreate when app is started up from 100% closed
     @Override
+    //test
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
