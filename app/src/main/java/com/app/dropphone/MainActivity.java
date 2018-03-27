@@ -1,18 +1,30 @@
 package com.app.dropphone;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.hardware.SensorEvent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.hardware.SensorEventListener;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.media.MediaPlayer;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -28,6 +40,62 @@ public class MainActivity extends AppCompatActivity
     //Sound+ buttons
     private MediaPlayer mediaPlayer, mSound1,mSound2,mSound3,mSound4;
     private Button sound1,sound2,sound3,sound4;
+
+    private int billeder = 0;
+    private String mCurrentPhotoPath;
+    static final int request_image_capture = 1;
+    static final int REQUEST_TAKE_PHOTO = 1;
+    final MainActivity tmp = this;
+    int billedecd = 0;
+
+    File[] files;
+
+    //camera funcs
+
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyymmdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" +timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageFileName,".jpg",storageDir);
+
+        mCurrentPhotoPath = image.getAbsolutePath();
+
+        return image;
+    }
+
+    private void galleryAddPic(String mcpp) {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(mcpp);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        this.sendBroadcast(mediaScanIntent);
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "android.kristiangottschalk.cameratest.FileProvider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            }
+        }
+    }
+
+
+
     //Runs onCreate when app is started up from 100% closed
     @Override
     //test
@@ -73,6 +141,19 @@ public class MainActivity extends AppCompatActivity
 
         */
 
+        String path = getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString();
+        Log.d("Files", "Path: " + path);
+        File directory = new File(path);
+        files = directory.listFiles();
+        Log.d("Files", "Size: "+ files.length);
+        for (int i = 0; i < files.length; i++)
+        {
+            Log.d("Files", "FileName:" + files[i].getName());
+        }
+
+        GridView gridview = (GridView) findViewById(R.id.gridview);
+        gridview.setAdapter(new ImageAdapter(this,files));
+
         //instantiates gyroscopeListener
         gyroscopeEventListener = new SensorEventListener() {
             //THIS BODY IS RUN ON REPEAT BY gyroscopeEventListener
@@ -81,6 +162,16 @@ public class MainActivity extends AppCompatActivity
             public void onSensorChanged(SensorEvent sensorEvent) {
                 if (sensorEvent.values[2] > 7) {
                     getWindow().getDecorView().setBackgroundColor(Color.BLUE);
+
+                    if(billedecd == 0)
+                    {
+                        dispatchTakePictureIntent();
+                        billedecd = 30;
+                    }
+                    else
+                    {
+                        billedecd--;
+                    }
                 } else if (sensorEvent.values[2] < -7) {
                     getWindow().getDecorView().setBackgroundColor(Color.RED);
                 }
@@ -180,5 +271,31 @@ public class MainActivity extends AppCompatActivity
     {
         mediaPlayer.start();
         dropped = true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        String path = getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString();
+        Log.d("Files", "Path: " + path);
+        File directory = new File(path);
+        files = directory.listFiles();
+        Log.d("Files", "Size: "+ files.length);
+        for (int i = 0; i < files.length; i++)
+        {
+            Log.d("Files", "FileName:" + files[i].getName());
+        }
+
+        GridView gridview = (GridView) findViewById(R.id.gridview);
+        gridview.setAdapter(new ImageAdapter(this,files));
+
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                Toast.makeText(MainActivity.this, "" + position,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }//MainActivity Class body end
